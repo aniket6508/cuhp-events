@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../LoadingSpinner";
 import { toast } from "react-toastify";
-import BookingCardAdmin from "./BookingCardAdmin";
-import BookingColumn from "./BookingColumn";
-import FilterOptionsTab from "./FilterOptionsTab";
-import VerifyUser from "../auth/VerifyUser";
-
-const BookingsAdmin = () => {
+import EventsDetailsHod from "./EventsDetailsHod";
+import BookingColumn from "../BookingColumn";
+import FilterOptionsTab from "../FilterOptionsTab";
+import VerifyUser from "../../auth/verification/VerifyUser";
+const BookingsHod = () => {
   const navigate = useNavigate();
-
   const [bookingData, setBookingData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [filterValue, setFilterValue] = useState("Request Sent");
-
-  const [emailVerified, setEmailVerified] = useState(false);
-  const [userData, setUserData] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState("");
+  const [filterValue, setFilterValue] = useState("Request Sent");
+  const [emailVerified, setEmailVerified] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState("");
+  const [rejectionReason, setRejectionReason] = useState("");
 
   const openModal = (bookingId) => {
     setShowModal(true);
@@ -43,8 +39,9 @@ const BookingsAdmin = () => {
           },
         }
       );
+
       const data = response.data;
-      setUserData(data);
+
       if (data.emailVerified) {
         setEmailVerified(true);
       }
@@ -62,13 +59,12 @@ const BookingsAdmin = () => {
   useEffect(() => {
     userContact();
   }, []);
-
   const getBookingData = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/bookingsAdmin`,
+        `${process.env.REACT_APP_SERVER_URL}/bookingsHod`,
         {
-          withCredentials: true,
+          withCredentials: true, // include credentials in the request
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -83,6 +79,7 @@ const BookingsAdmin = () => {
       });
 
       setBookingData(sortedBookingData);
+
       setIsLoading(false);
 
       if (response.status !== 200) {
@@ -104,25 +101,15 @@ const BookingsAdmin = () => {
   }, []);
 
   const updateBooking = async (bookingId, isApproved) => {
-    if (isApproved === "Rejected By Admin") {
-      if (rejectionReason.trim() === "") {
-        toast.error("Please provide a reason for rejection.");
-        return;
-      } else {
-        setRejectionReason(null);
-      }
-    }
     setIsLoading(true);
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/bookingsEdit/${bookingId}`,
         {
           isApproved: isApproved,
-          rejectionReason:
-            isApproved === "Approved By Admin" ? null : rejectionReason,
         },
         {
-          withCredentials: true,
+          withCredentials: true, // include credentials in the request
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -131,8 +118,8 @@ const BookingsAdmin = () => {
       );
       closeModal();
       getBookingData();
-
       toast.success(`Request ${isApproved} Successfull!`);
+
       if (response.status !== 200) {
         throw new Error(response.error);
       }
@@ -140,7 +127,6 @@ const BookingsAdmin = () => {
       console.log(error);
     }
   };
-
   const handleFilter = (value) => {
     setFilterValue(value);
   };
@@ -156,22 +142,22 @@ const BookingsAdmin = () => {
       return bookingData.isApproved === "Rejected By HOD";
     } else if (filterValue === "Rejected By Admin") {
       return bookingData.isApproved === "Rejected By Admin";
-    }else if (filterValue === "My Requests") {
-      return bookingData.email === userData.email;
     } else {
       return bookingData;
     }
   });
-  const handleEditClick = (bookingId) => {
-    navigate(`/bookingsEdit/${bookingId}`);
-  };
 
   const handleViewClick = (bookingId) => {
     navigate(`/bookingsView/${bookingId}`);
   };
+
+  const handleEditClick = (bookingId) => {
+    navigate(`/bookingsEdit/${bookingId}`);
+  };
+
   return (
     <>
-      <div className="mt-6">
+      <div className="mt-6 min-h-screen">
         <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-3xl text-center text-gray-800 font-black leading-7 ml-3 md:leading-10">
           Booking<span className="text-indigo-700"> Requests</span>{" "}
         </h1>
@@ -202,7 +188,7 @@ const BookingsAdmin = () => {
                 <button
                   className="px-4 py-2 bg-red-500 text-white rounded mr-2"
                   onClick={() =>
-                    updateBooking(selectedBookingId, "Rejected By Admin")
+                    updateBooking(selectedBookingId, "Rejected By HOD")
                   }
                 >
                   Reject
@@ -216,7 +202,7 @@ const BookingsAdmin = () => {
           <LoadingSpinner />
         ) : !emailVerified ? (
           <div className="flex items-center flex-col my-12 justify-center  ">
-            <VerifyUser/>
+            <VerifyUser />
           </div>
         ) : (
           <div className="container w-full px-4 mx-auto sm:px-8 ">
@@ -230,13 +216,13 @@ const BookingsAdmin = () => {
                     {Array.isArray(filteredBookings) &&
                     filteredBookings.length > 0 ? (
                       filteredBookings.map((booking) => (
-                        <BookingCardAdmin
+                        <EventsDetailsHod
                           booking={booking}
-                          updateBooking={updateBooking}
-                          handleViewClick={handleViewClick}
                           handleEditClick={handleEditClick}
-                          openModal={openModal}
+                          handleViewClick={handleViewClick}
+                          updateBooking={updateBooking}
                           filterValue={filterValue}
+                          openModal={openModal}
                         />
                       ))
                     ) : (
@@ -262,4 +248,4 @@ const BookingsAdmin = () => {
   );
 };
 
-export default BookingsAdmin;
+export default BookingsHod;

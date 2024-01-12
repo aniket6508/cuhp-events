@@ -1,5 +1,5 @@
 import React from "react";
-import { InstitutionList,DepartmentList } from "../InstitutionDeptartmentList";
+import { InstitutionList,DepartmentList } from "../../InstitutionDeptartmentList";
 
 
 export const RoleOptions = () => {

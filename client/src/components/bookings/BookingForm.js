@@ -7,8 +7,8 @@ import axios from "axios";
 import { parseISO } from "date-fns";
 import { DepartmentList, InstitutionList } from "../InstitutionDeptartmentList";
 import notVerified from "../../assets/notVerified.jpg";
-import { InstitutionOptions,DepartmentOptions } from "../auth/SignUpFormOptions";
-import VerifyUser from "../auth/VerifyUser";
+import { InstitutionOptions,DepartmentOptions } from "../auth/signupOptions/SignUpFormOptions";
+import VerifyUser from "../auth/verification/VerifyUser";
 const BookingForm = () => {
   const navigate = useNavigate();
   const [authStatus, setAuthStatus] = useState("");

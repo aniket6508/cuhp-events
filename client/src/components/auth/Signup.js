@@ -7,7 +7,7 @@ import {
   RoleOptions,
   InstitutionOptions,
   DepartmentOptions,
-} from "./SignUpFormOptions";
+} from "./signupOptions/SignUpFormOptions";
 
 const Signup = () => {
   const navigate = useNavigate();

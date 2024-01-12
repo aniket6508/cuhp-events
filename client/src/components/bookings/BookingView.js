@@ -1,19 +1,20 @@
+import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
+
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import LoadingSpinner from "../LoadingSpinner";
-import axios from "axios";
-import { parseISO, format } from "date-fns";
-import { UserContext } from "../../App";
 
-import {
-  RequestSent,
-  ApprovedByAdmin,
-  ApprovedByHod,
-  RejectedByAdmin,
-  RejectedByHod,
-} from "../Steps";
+import LoadingSpinner from "../LoadingSpinner";
+import { parseISO, format } from "date-fns";
+
+import { UserContext } from "../../App";
+import { RequestSent } from "../stepsOptions/RequestSent";
+import { ApprovedByAdmin } from "../stepsOptions/ApprovedByAdmin";
+import { ApprovedByHod } from "../stepsOptions/ApprovedByHod";
+import { RejectedByHod } from "../stepsOptions/RejectedByHod";
+import { RejectedByAdmin } from "../stepsOptions/RejectedByAdmin";
+
 import { DepartmentList, InstitutionList } from "../InstitutionDeptartmentList";
 const BookingsView = () => {
   const navigate = useNavigate();
@@ -23,7 +24,6 @@ const BookingsView = () => {
   const [showModal, setShowModal] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const { state } = useContext(UserContext);
-
 
   const openModal = (bookingId) => {
     setShowModal(true);
@@ -52,7 +52,6 @@ const BookingsView = () => {
       navigate("/");
     }
   };
-
 
   const updateBooking = async (bookingId, isApproved) => {
     if (isApproved === "Rejected By Admin") {
@@ -87,14 +86,12 @@ const BookingsView = () => {
       if (response.status !== 200) {
         throw new Error(response.error);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleEditClick = (bookingId) => {
     navigate(`/bookingsEdit/${bookingId}`);
   };
-
 
   useEffect(() => {
     getbookingById();
@@ -166,8 +163,6 @@ const BookingsView = () => {
                     {bookingData.organizingClub}
                   </p>
                 </div>
-
-              
 
                 <div className="w-full md:w-1/2 px-3">
                   <h1
@@ -401,7 +396,7 @@ const BookingsView = () => {
                 </div>
               </div>
 
-              {bookingData.rejectionReason!==null && (
+              {bookingData.rejectionReason !== null && (
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full px-3 mb-6 md:mb-0">
                     <h1
@@ -432,6 +427,8 @@ const BookingsView = () => {
                 )}
                 {bookingData.isApproved === "Request Sent" && <RequestSent />}
               </div>
+
+
               <div className="px-5 py-5 text-l flex font-bold  bg-white justify-between border-gray-200">
                 {state.userType === "admin" && (
                   <>
@@ -458,6 +455,8 @@ const BookingsView = () => {
                     </button>
                   </>
                 )}
+
+                
                 {state.userType === "hod" && (
                   <>
                     <button

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../LoadingSpinner";
 import { toast } from "react-toastify";
 import HallCardAdmin from "./HallCardAdmin";
 
@@ -67,7 +67,6 @@ const HallsAdmin = () => {
       }
     } catch (error) {
       console.log(error);
-
     }
   };
 
@@ -77,8 +76,6 @@ const HallsAdmin = () => {
   }, []);
 
   const handleDeleteClick = async (hallId) => {
-
-
     try {
       const response = await axios.delete(
         `${process.env.REACT_APP_SERVER_URL}/halls/${hallId}`,
@@ -147,8 +144,13 @@ const HallsAdmin = () => {
 
           {Array.isArray(hallData) && hallData.length > 0 ? (
             hallData.map((hall) => (
-              
-              <HallCardAdmin hall={hall} handleBookingClick={handleBookingClick} userData={userData} handleEditClick={handleEditClick} handleDeleteModal={handleDeleteModal}/>
+              <HallCardAdmin
+                hall={hall}
+                handleBookingClick={handleBookingClick}
+                userData={userData}
+                handleEditClick={handleEditClick}
+                handleDeleteModal={handleDeleteModal}
+              />
             ))
           ) : (
             <h2 className="text-2xl font-bold text-zinc-700  text-center mt-10">

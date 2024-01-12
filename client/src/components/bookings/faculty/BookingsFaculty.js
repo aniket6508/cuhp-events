@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import LoadingSpinner from "../LoadingSpinner";
-import BookingColumn from "./BookingColumn";
+import LoadingSpinner from "../../LoadingSpinner";
+import BookingColumn from "../BookingColumn";
 
 import BookingCardFaculty from "./BookingCardFaculty";
-import FilterOptionsTab from "./FilterOptionsTab";
+import FilterOptionsTab from "../FilterOptionsTab";
 const BookingFaculty = () => {
   const navigate = useNavigate();
   const [bookingData, setBookingData] = useState({});

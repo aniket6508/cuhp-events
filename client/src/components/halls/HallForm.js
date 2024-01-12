@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../LoadingSpinner";
 import notVerified from "../../assets/notVerified.jpg";
-import VerifyUser from "../auth/VerifyUser";
+import VerifyUser from "../auth/verification/VerifyUser";
 
 
 const HallForm = () => {

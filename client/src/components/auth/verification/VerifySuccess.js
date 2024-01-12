@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../LoadingSpinner";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import verisuccess from "../../assets/verification success.jpg";
-import verifail from "../../assets/verification fail.png";
+import verisuccess from "../../../assets/verification success.jpg";
+import verifail from "../../../assets/verification fail.png";
 const VerifySuccess = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [authStatus, setAuthStatus] = useState(false);

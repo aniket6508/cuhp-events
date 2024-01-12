@@ -1,5 +1,5 @@
 import React from "react";
-import BookingsAdmin from "../bookings/BookingsAdmin";
+import BookingsAdmin from "../bookings/admin/BookingsAdmin";
 
 const AdminDashboard = () => {
   return (

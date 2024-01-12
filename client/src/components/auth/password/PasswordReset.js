@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../LoadingSpinner";
 import axios from "axios";
 import { toast } from "react-toastify";
 
