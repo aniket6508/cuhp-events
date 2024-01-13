@@ -217,6 +217,7 @@ const BookingsHod = () => {
                     filteredBookings.length > 0 ? (
                       filteredBookings.map((booking) => (
                         <EventsDetailsHod
+                          key={booking._id}
                           booking={booking}
                           handleEditClick={handleEditClick}
                           handleViewClick={handleViewClick}

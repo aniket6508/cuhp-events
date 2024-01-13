@@ -94,6 +94,7 @@ const BookingFaculty = () => {
                     filteredBookings.length > 0 ? (
                       filteredBookings.map((booking) => (
                         <BookingCardFaculty
+                        key={booking._id}
                           booking={booking}
                           handleViewClick={handleViewClick}
                           filterValue={filterValue}

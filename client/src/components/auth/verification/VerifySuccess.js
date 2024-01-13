@@ -7,11 +7,13 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import verisuccess from "../../../assets/verification success.jpg";
 import verifail from "../../../assets/verification fail.png";
+
 const VerifySuccess = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [authStatus, setAuthStatus] = useState(false);
   const { id, token } = useParams();
 
+  // Function to validate user verification status
   const userValid = async () => {
     try {
       const response = await axios.get(
@@ -28,22 +30,21 @@ const VerifySuccess = () => {
       setIsLoading(false);
       if (data.status === 201) {
         setAuthStatus(true);
-        toast.success("Email Verified Successfull", {
+        toast.success("Email Verified Successfully", {
           toastId: "successfull",
         });
       } else {
-        console.log("user inValid");
+        console.log("user invalid");
       }
     } catch (error) {
       if (
         (error.response.status === 401 || error.response.status === 500) &&
         error.response
       ) {
-        
         setAuthStatus(false);
         setIsLoading(false);
 
-        toast.error("Link Exipired Verify Again!", {
+        toast.error("Verification Link Expired, Please Verify Again!", {
           toastId: "Unauthrized",
         });
       }
@@ -65,10 +66,10 @@ const VerifySuccess = () => {
           </div>
           <div className="w-full lg:w-1/2">
             <h1 className="py-4 text-3xl lg:text-4xl font-extrabold text-gray-800 ">
-              Verification Link Has Been Expired!
+              Verification Link Has Expired!
             </h1>
             <p className="py-4 text-xl text-gray-800">
-              Please click on the below button and verify again.
+              Please click the button below to verify again.
             </p>
             <div>
               <Link to="/about">
@@ -82,14 +83,14 @@ const VerifySuccess = () => {
       ) : (
         <div className="flex items-center flex-col justify-center lg:flex-row py-28 px-6 md:px-24 md:py-20 lg:py-32 gap-16 lg:gap-28">
           <div className="w-full lg:w-1/2">
-            <img alt="error" className="hidden lg:block" src={verisuccess} />
+            <img alt="success" className="hidden lg:block" src={verisuccess} />
           </div>
           <div className="w-full lg:w-1/2">
             <h1 className="py-4 text-3xl lg:text-4xl font-extrabold text-gray-800 ">
-              Verification Has Been Done Successfully!
+              Verification Successful!
             </h1>
             <p className="py-4 text-xl text-gray-800">
-              Please click on the below button to goto home page.
+              Please click the button below to go back to the homepage.
             </p>
             <div>
               <Link to="/">

@@ -13,7 +13,7 @@ const BookingsAdmin = () => {
 
   const [bookingData, setBookingData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [filterValue, setFilterValue] = useState("Request Sent");
+  const [filterValue, setFilterValue] = useState("Approved By HOD");
 
   const [emailVerified, setEmailVerified] = useState(false);
   const [userData, setUserData] = useState({});
@@ -156,7 +156,7 @@ const BookingsAdmin = () => {
       return bookingData.isApproved === "Rejected By HOD";
     } else if (filterValue === "Rejected By Admin") {
       return bookingData.isApproved === "Rejected By Admin";
-    }else if (filterValue === "My Requests") {
+    } else if (filterValue === "My Requests") {
       return bookingData.email === userData.email;
     } else {
       return bookingData;
@@ -216,7 +216,7 @@ const BookingsAdmin = () => {
           <LoadingSpinner />
         ) : !emailVerified ? (
           <div className="flex items-center flex-col my-12 justify-center  ">
-            <VerifyUser/>
+            <VerifyUser />
           </div>
         ) : (
           <div className="container w-full px-4 mx-auto sm:px-8 ">
@@ -231,6 +231,7 @@ const BookingsAdmin = () => {
                     filteredBookings.length > 0 ? (
                       filteredBookings.map((booking) => (
                         <BookingCardAdmin
+                          key={booking._id}
                           booking={booking}
                           updateBooking={updateBooking}
                           handleViewClick={handleViewClick}

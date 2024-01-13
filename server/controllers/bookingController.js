@@ -225,15 +225,11 @@ const createBooking = async (req, res, next) => {
       bookedHall:hall,
       bookedHallName,
       organizingClub,
-      // eventDetailFile,
-      // eventDetailText,
       phoneNumber,
       altNumber,
       isApproved
     });
-    // await booking.validate();
-    // booking.bookedHallId = hall;
-    // await booking.populate(bookedHallId);
+    
     await booking.save();
 
 
@@ -330,12 +326,10 @@ const getBookingById = async (req, res, next) => {
 
 const getBookingByUserId = async (req, res, next) => {
   try {
-    // const { userId } = req.params;
+   
     const userId = req.rootUser._id
     const booking = await Booking.find({  userId }).populate('bookedHallId').populate('userId');
-    // if (!mongoose.Types.ObjectId.isValid(userId)) {
-    //   return res.status(400).json({ message: 'Invalid userId' });
-    // }
+   
     if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
@@ -351,8 +345,7 @@ const getBookingAdmin = async (req, res, next) => {
     let statusArray = ["Approved By HOD", "Approved By Admin", "Rejected By Admin"];
     const adminEmail = req.rootUser.email;
     const userId = req.rootUser._id;
-    // console.log("admin bookng");
-    // console.log(adminEmail);
+    
     if (process.env.REACT_APP_HOD_FEATURE != "true") {
       statusArray.unshift("Request Sent"); // Add "Request Sent" at the beginning if HOD feature is on
     }
@@ -367,7 +360,6 @@ const getBookingAdmin = async (req, res, next) => {
 }
     ).populate('bookedHallId')
       .populate('userId');
-      // console.log(bookings);
     res.json({ bookings });
   } catch (error) {
     next(error);
@@ -377,7 +369,6 @@ const getBookingAdmin = async (req, res, next) => {
 
 const getBookingHod = async (req, res, next) => {
   const hodDepartment = req.rootUser.department
-  // console.log(hodDepartment);
   try {
     const bookings = await Booking.find({ department: hodDepartment }).populate('bookedHallId');
 
@@ -403,19 +394,11 @@ const updateBooking = async (req, res, next) => {
       eventDate,
       startTime,
       endTime,
-      // email,
-
-      // bookedHallId,
-      // hallId,
       rejectionReason,
       isApproved
     } = req.body;
 
-    // const hall = await Hall.findById(hallId);
-    // if (!hall) {
-    //   return res.status(404).json({ message: 'Hall not found' });
-    // }
-   
+    
 
 
     const booking = await Booking.findByIdAndUpdate(

@@ -10,10 +10,14 @@ import {
 } from "./signupOptions/SignUpFormOptions";
 
 const Signup = () => {
+  // Hook to handle navigation
   const navigate = useNavigate();
+
+  // State to manage authentication status and loading state
   const [authStatus, setAuthStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // State to manage user input data
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -26,16 +30,18 @@ const Signup = () => {
     cpassword: "",
   });
 
-  let name, value;
+  // Function to handle input changes
   const handleInputs = (e) => {
-    name = e.target.name;
-    value = e.target.value;
+    const name = e.target.name;
+    const value = e.target.value;
     setUser({ ...user, [name]: value });
   };
 
+  // Function to handle form submission
   const PostData = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     const {
       name,
       email,
@@ -49,6 +55,7 @@ const Signup = () => {
     } = user;
 
     try {
+      // Make a POST request to the server for user registration
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/register`,
         {
@@ -70,8 +77,9 @@ const Signup = () => {
       );
 
       setIsLoading(false);
-      toast.success("Sign Up Successfull!");
+      toast.success("Sign Up Successful!");
 
+      // Redirect to login page after successful registration
       navigate("/login");
     } catch (error) {
       if (error.response.status === 422 && error.response) {
@@ -84,15 +92,18 @@ const Signup = () => {
 
   return (
     <>
+      {/* Display loading spinner while signing up */}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <section className="text-gray-600 body-font my-10  min-h-screen flex items-center justify-center bg-white">
+        <section className="text-gray-600 body-font my-10 min-h-screen flex items-center justify-center bg-white">
           <div className="lg:w-2/6 md:w-1/2 my-10 bg-white shadow-2xl shadow-blue-200 rounded-lg p-8 flex flex-col md:ml-auto md:mr-auto mt-10 md:mt-0">
             <form method="POST">
               <h3 className="text-3xl my-8 sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
                 Sign <span className="text-indigo-600">Up</span>
               </h3>
+
+              {/* Full Name Input */}
               <div className="relative mb-4">
                 <label
                   htmlFor="full-name"
@@ -111,6 +122,8 @@ const Signup = () => {
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 />
               </div>
+
+              {/* Email Input */}
               <div className="relative mb-4">
                 <label
                   htmlFor="email"
@@ -130,6 +143,7 @@ const Signup = () => {
                 />
               </div>
 
+              {/* Phone Input */}
               <div className="relative mb-4">
                 <label
                   htmlFor="phone"
@@ -150,6 +164,7 @@ const Signup = () => {
                 />
               </div>
 
+              {/* User Type (Role) Dropdown */}
               <div className="relative mb-4">
                 <label
                   htmlFor="userType"
@@ -157,7 +172,6 @@ const Signup = () => {
                 >
                   Your Role
                 </label>
-
                 <select
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   id="userType"
@@ -169,29 +183,29 @@ const Signup = () => {
                 </select>
               </div>
 
+              {/* Admin Key Input (conditionally rendered based on user type) */}
               {user.userType === "admin" ? (
-                <>
-                  <div className="relative mb-4">
-                    <label
-                      htmlFor="adminKey"
-                      className="leading-7 block uppercase tracking-wide text-gray-700 text-xs font-bold"
-                    >
-                      Admin Key
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={user.adminKey}
-                      onChange={handleInputs}
-                      id="adminKey"
-                      name="adminKey"
-                      placeholder="Admin Key"
-                      className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                  </div>
-                </>
+                <div className="relative mb-4">
+                  <label
+                    htmlFor="adminKey"
+                    className="leading-7 block uppercase tracking-wide text-gray-700 text-xs font-bold"
+                  >
+                    Admin Key
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={user.adminKey}
+                    onChange={handleInputs}
+                    id="adminKey"
+                    name="adminKey"
+                    placeholder="Admin Key"
+                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  />
+                </div>
               ) : (
                 <>
+                  {/* Institution Dropdown */}
                   <div className="relative mb-4">
                     <label
                       htmlFor="institution"
@@ -199,7 +213,6 @@ const Signup = () => {
                     >
                       Institution
                     </label>
-
                     <select
                       className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                       id="institution"
@@ -211,6 +224,7 @@ const Signup = () => {
                     </select>
                   </div>
 
+                  {/* Department Dropdown (conditionally rendered based on selected institution) */}
                   {(user.institution === "CUPB" ||
                     user.institution === "CUHP") && (
                     <div className="relative mb-4">
@@ -220,7 +234,6 @@ const Signup = () => {
                       >
                         Department
                       </label>
-
                       <select
                         className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                         id="department"
@@ -235,6 +248,7 @@ const Signup = () => {
                 </>
               )}
 
+              {/* Password Input */}
               <div className="relative mb-4">
                 <label
                   htmlFor="password"
@@ -253,6 +267,8 @@ const Signup = () => {
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 />
               </div>
+
+              {/* Confirm Password Input */}
               <div className="relative mb-4">
                 <label
                   htmlFor="cpassword"
@@ -272,9 +288,12 @@ const Signup = () => {
                 />
               </div>
 
+              {/* Authentication Status Display */}
               <div className="my-4">
                 <p className="text-s text-red-600	 font-bold">{authStatus}</p>
               </div>
+
+              {/* Submit Button */}
               <div className="mx-auto w-fit">
                 <div className="mx-auto">
                   <button
@@ -286,6 +305,8 @@ const Signup = () => {
                   </button>
                 </div>
               </div>
+
+              {/* Login Link */}
               <div className="mt-4 text-center">
                 <p className="text-m">
                   Already have an account?{" "}

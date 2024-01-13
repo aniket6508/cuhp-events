@@ -7,11 +7,11 @@ const jwt = require("jsonwebtoken")
 
 
 
-
+// To register the usere :-
 const register = async (req, res,next) => {
   try {
     const { name, email,institution,department, phone, userType,adminKey, password, cpassword } = req.body;
-  // console.log(process.env.ADMIN_KEY);
+  
   const hodExist = await User.findOne({ department , userType: "hod" });
 
     if (userType === "admin") {
@@ -25,6 +25,7 @@ const register = async (req, res,next) => {
       if (!name || !institution || !department || !email || !phone || !userType || !password || !cpassword) {
         return res.status(422).json({ error: "Kindly complete all fields." });
       }else if(hodExist){
+        //one department has only one admin
         return res.status(422).json({ error: `Hod for ${department} already exists` });
       }
     }else{
@@ -33,26 +34,17 @@ const register = async (req, res,next) => {
       }
     }
 
-   
-    
-    // Regular expression to validate full name with at least two words separated by a space
-    const nameRegex = /^[\w'.]+\s[\w'.]+\s*[\w'.]*\s*[\w'.]*\s*[\w'.]*\s*[\w'.]*$/;
-  
-    if (!nameRegex.test(name)) {
-      return res.status(422).json({ error: "Kindly provide your complete name." });
-    }
-    // Regular expression to validate email format
     const emailRegex = /^\S+@\S+\.\S+$/;
   
     if (!emailRegex.test(email)) {
       return res.status(422).json({ error: "Kindly provide a valid email address." });
     }
     
-    const chitkaraEmailRegex = /@chitkara\.in$/;
-    const chitkaraEduEmailRegex = /@chitkarauniversity\.edu\.in$/;
+    const EmailRegex = /@chitkarauniversity\.in$/;
+    const EduEmailRegex = /@chitkarauniversity\.edu\.in$/;
 
-    if (!chitkaraEmailRegex.test(email) && !chitkaraEduEmailRegex.test(email) ) {
-      return res.status(422).json({ error: "Kindly provide a email address associated with Chitkara University" });
+    if (!EmailRegex.test(email) && !EduEmailRegex.test(email) ) {
+      return res.status(422).json({ error: "Kindly provide a email address associated with Acropolis Institute" });
     }
     // Phone validation
     if (phone.length !== 10) {
@@ -83,8 +75,7 @@ const register = async (req, res,next) => {
         
            user = new User({ name, email, phone, userType,institution,department,adminKey:"null" ,password, cpassword });
         }
-        // console.log(user);
-        // Perform additional validation or data processing here
+        
         await user.save();
   
         return res.status(201).json({ message: "Saved successfully" });
@@ -291,13 +282,12 @@ const register = async (req, res,next) => {
   };
 
 const passwordLink = async (req, res,next) => {
-  // console.log(req.body);
-  // res.json({message:"login success"})
+  
   try {
 
     const { email } = req.body;
     if (!email ) {
-      return res.status(400).json({ error: "Please Enter yout Email" });
+      return res.status(400).json({ error: "Please Enter your Email" });
     }
 
     const userFind = await User.findOne({ email });
@@ -314,7 +304,7 @@ const passwordLink = async (req, res,next) => {
           const mailOptions = {
             from:process.env.SENDER_EMAIL,
             to:email,
-            subject:"Book It Reset Password",
+            subject:"CUHP Reset Password",
             html:resetPasswordTemplate((`${process.env.CLIENT_URL}/forgotPassword/${userFind.id}/${setUserToken.verifyToken}`),userFind.name)
             // text:`This link is valid for 5 minutes \n ${process.env.CLIENT_URL}/forgotPassword/${userFind.id}/${setUserToken.verifyToken} \n click on above link`
           }
@@ -358,8 +348,6 @@ const forgotPassword = async (req, res,next) => {
       }else{
         res.status(401).json({status:401,message:"user not exist"})
       }
-
-  //  // console.log(validUser); 
   } catch (error) {
     res.status(401).json({status:401,error})
     
@@ -442,29 +430,21 @@ const emailVerificationLink = async (req, res,next) => {
         if (setUserToken) {
           const mailOptions = {
             from:process.env.SENDER_EMAIL,
-            // to:email,
             //send mail to admin to verify new user
             to:process.env.ADMIN_EMAIL,
-            subject:"Book It User Verification",
+            subject:"CUHP User Verification",
             html:verifyEmailTemplate((`${process.env.CLIENT_URL}/verifyEmail/${userFind.id}/${setUserToken.verifyToken}`),userFind) 
-            // text:`This link is valid for 5 minutes \n ${process.env.CLIENT_URL}/forgotPassword/${userFind.id}/${setUserToken.verifyToken} \n click on above link`
-          }
+            }
         
           transporter.sendMail(mailOptions,(error,info)=>
           {
             if (error) {
-              // console.log(error);
-              res.status(401).json({status:401,message:"Email not Send"})
+             res.status(401).json({status:401,message:"Email not Send"})
             }else{
-              // console.log("Email Sent ",info.response);
               res.status(201).json({status:201,message:"Email Send Successfully"})
             }
           })
         }
-
-
-
-        // console.log(setUserToken);
 
     } else {
       res.status(400).json({ error: "Invalid Credentials" });
@@ -497,12 +477,9 @@ const verifyEmail = async (req, res,next) => {
       else{
         res.status(401).json({status:401,error:"user not exist"})
       }
-      // console.log(setUserToken);
-    
-     
-  //  // console.log(validUser); 
+
   } catch (error) {
-    // res.status(401).json({status:422,error})
+    
     next(error);
 
   }
@@ -510,14 +487,8 @@ const verifyEmail = async (req, res,next) => {
 
 
 
-
-
-
-
 const login = async (req, res,next) => {
-    // console.log(req.body);
-    
-    // res.json({message:"login success"})
+   
     try {
       let token;
       const { email, password } = req.body;
@@ -530,27 +501,12 @@ const login = async (req, res,next) => {
       if (userLogin) {
         const isMatch = await bcrypt.compare(password, userLogin.password);
         token = await userLogin.generateAuthToken();
-        // console.log("this is login token" + token);
-
-        // res.cookie("jwtoken", token, {
-        //   maxAge: 900000,
-        //   // expires: new Date(Date.now() + 9000000),
-        //   path :"/",
-          
-        //   // domain:".onrender.com",
-        //   // expires: new Date(Date.now() + 900),
-          
-        //   httpOnly: true,
-        // })
-
-        // window.sessionStorage.setItem("jwtoken", data.token);
        
         if (!isMatch) {
           res.status(400).json({ error: "Invalid Credentials" });
         } else {
           res.status(200).json({ userLogin, token: token, message: "User logged in successfully" });
-          // res.status(200)
-          // .send(userLogin).json({ message: "user login successfully" })
+         
         }
       } else {
         res.status(400).json({ error: "Invalid Credentials" });
@@ -566,14 +522,11 @@ const login = async (req, res,next) => {
 
 
   const about = async (req, res) => {
-    // console.log("about page");
     res.send(req.rootUser);
   }
   
   //get user data for contact us and home page
   const getdata = async (req, res) => {
-        // console.log("getdata page");
-        // console.log(req.rootUser);
     res.send(req.rootUser);
   }
 
@@ -586,7 +539,7 @@ const login = async (req, res,next) => {
       const { name, email,department, phone, message } = req.body;
   
       if (!name || !department || !email || !phone || !message) {
-        // console.log("error in contact form");
+        
         return res.json({ error: "Plz fill form correctly" });
       }
   
@@ -611,20 +564,14 @@ const login = async (req, res,next) => {
 
   
   const logout = async (req, res, next) => {
-    // const userId = req.userId; // get the userId from the request header
+  
     try {
       const userId = req.params.userId;
-      // remove the user token from the database
       const user = await User.findByIdAndUpdate(
         {_id: userId},
         { $unset: { tokens: 1 } },
         { new: true }
       );
-  
-      // clear the cookie
-      // res.clearCookie("jwtoken",{path:"/"});
-
-  
       res.status(200).send("User logged out successfully");
     } catch (error) {
       next(error);

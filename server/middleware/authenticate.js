@@ -1,41 +1,39 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/userSchema");
 
+// Middleware to authenticate and authorize incoming requests
 const Authenticate = async (req, res, next) => {
   try {
-    // const token = req.cookies.jwtoken;
-    // const token = req.headers["authorization"];
+    // Extract the token from the Authorization header
     const bearerHeader = req.headers["authorization"];
-    // console.log("bearerHeader:", bearerHeader);
-
     const bearer = bearerHeader.split(" ");
     const token = bearer[1];
-    // console.log("auth called");
 
-    // const token = req.sessionstotage.jwtoken;
-    // const token = window.sessionStorage.getItem('jwtoken');
-    // console.log(token);
+    // Verify the token using the secret key
     const verifyTokens = jwt.verify(token, process.env.SECRET_KEY);
-    // console.log(verifyTokens);
+
+    // Query the database to find a user with the same ID and matching token
     const rootUser = await User.findOne({
       _id: verifyTokens._id,
       "tokens.token": token,
     });
 
-    // console.log(rootUser);
+    // If the user is not found, throw an error
     if (!rootUser) {
-      throw new Error("user not found");}
-      
-      req.token = token;
+      throw new Error("User not found");
+    }
 
-      req.rootUser = rootUser;
-      req.userID = rootUser._id;
-      next();
+    // Modify the request object by adding token, user, and user ID
+    req.token = token;
+    req.rootUser = rootUser;
+    req.userID = rootUser._id;
+
+    next();
     
   } catch (error) {
-    res.status(401).send("unauthorized:No token provided");
-    // console.log(error);
+    res.status(401).send("Unauthorized: No valid token");
   }
 };
+
 
 module.exports = Authenticate;

@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../App";
 
-const FilterOptionsTab = ({handleFilter,filterValue}) => {
+const FilterOptionsTab = ({ handleFilter, filterValue }) => {
   const { state } = useContext(UserContext);
+
   return (
     <>
+      {/* Button for filtering pending requests */}
       {state.userType !== "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -17,6 +19,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Pending
         </button>
       )}
+
+      {/* Button for filtering requests forwarded to admin */}
       {state.userType !== "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -29,6 +33,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Forwarded To Admin
         </button>
       )}
+
+      {/* Button for filtering requests rejected by HOD */}
       {state.userType !== "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -41,6 +47,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Rejected By Hod
         </button>
       )}
+
+      {/* Button for filtering requests approved by admin */}
       {state.userType !== "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -53,6 +61,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Approved By Admin
         </button>
       )}
+
+      {/* Button for filtering requests rejected by admin */}
       {state.userType !== "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -65,6 +75,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Rejected By Admin
         </button>
       )}
+
+      {/* Conditional rendering for admin-specific buttons */}
       {(process.env.REACT_APP_HOD_FEATURE === "true" &&
         state.userType === "admin") && (
           <button
@@ -78,6 +90,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
             Pending
           </button>
         )}
+
+      {/* Button for filtering requests approved by admin */}
       {state.userType === "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -90,6 +104,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Approved
         </button>
       )}
+
+      {/* Button for filtering requests rejected by admin */}
       {state.userType === "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${
@@ -102,6 +118,8 @@ const FilterOptionsTab = ({handleFilter,filterValue}) => {
           Rejected
         </button>
       )}
+
+      {/* Button for filtering admin's own requests */}
       {state.userType === "admin" && (
         <button
           className={`rounded-full px-4 py-2 mx-4 focus:outline-none ${

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema(
-  { userId: {
+  {  
+    userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'USER',
     required: true
@@ -54,8 +55,6 @@ const bookingSchema = new mongoose.Schema(
       required: true
     },
     bookedHall: {
-      // type: mongoose.Schema.Types.Subdocument,
-
       type: Object,
       required: true,
     },
@@ -89,7 +88,6 @@ const bookingSchema = new mongoose.Schema(
   }
 );
 
-// bookingSchema.index({ eventDate: 1 }, { expireAfterSeconds: 86400 });
 const Booking = mongoose.model('Booking', bookingSchema);
 
 module.exports = Booking;

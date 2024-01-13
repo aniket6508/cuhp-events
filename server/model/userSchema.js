@@ -1,87 +1,66 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose"); 
+const bcrypt = require("bcryptjs"); 
+const jwt = require("jsonwebtoken"); 
 
+// Define a Mongoose schema for the 'User' model
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
   },
-  institution:{
+  institution: {
     type: String,
-    required: true
+    required: true,
   },
-  department:{
+  department: {
     type: String,
-    required: true
+    required: true,
   },
   phone: {
     type: Number,
-    require: true,
+    required: true,
   },
   userType: {
     type: String,
-    require: true,
+    required: true,
   },
   adminKey: {
     type: String,
-    require: true,
+    required: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   cpassword: {
     type: String,
-    require: true,
+    required: true,
   },
   date: {
     type: Date,
     default: Date.now,
   },
-  // messages: [
-  //   {
-  //     name: {
-  //       type: String,
-  //       require: true,
-  //     },
-  //     email: {
-  //       type: String,
-  //       require: true,
-  //     },
-  //     phone: {
-  //       type: Number,
-  //       require: true,
-  //     },
-  //     message: {
-  //       type: String,
-  //       require: true,
-  //     },
-  //   },
-  // ],
   tokens: [
     {
       token: {
         type: String,
-        require: true,
+        required: true,
       },
     },
   ],
   verifyToken: {
     type: String,
   },
-  emailVerified:{
-    type:Boolean
-  }
-  
+  emailVerified: {
+    type: Boolean,
+  },
 });
 
-// yaha per password hashing ker rahe hai
-
+// Middleware: Before saving a user document, hash the password using bcrypt
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 12);
@@ -90,8 +69,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// generating jwt token
-
+// Method: Generate an authentication token using the user's ID and a secret key
 userSchema.methods.generateAuthToken = async function () {
   try {
     let token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY, { expiresIn: '2d' });
@@ -99,20 +77,10 @@ userSchema.methods.generateAuthToken = async function () {
     await this.save();
     return token;
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 };
-// storing message
-// userSchema.methods.addMessage = async function(name,email,phone,message){
-//     try {
-//        this.messages = this.messages.concat({name,email,phone,message})
-//        await this.save();
-//        return this.messages;
-//     } catch (error) {
-//         // console.log(error);
-//     }
-// }
 
+// Create a Mongoose model named 'User' using the defined schema
 const User = new mongoose.model("USER", userSchema);
-
 module.exports = User;

@@ -56,7 +56,7 @@ const BookingsView = () => {
   const updateBooking = async (bookingId, isApproved) => {
     if (isApproved === "Rejected By Admin") {
       if (rejectionReason.trim() === "") {
-        toast.error("Please provide a reason for rejection.");
+        toast.error("Please provide a reason htmlFor rejection.");
         return;
       } else {
         setRejectionReason(null);
@@ -120,12 +120,12 @@ const BookingsView = () => {
             <form className="w-full" onSubmit={(e) => e.preventDefault()}>
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-event-manager"
+                    htmlFor="grid-event-manager"
                   >
                     Event Coordinator Name
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-event-manager"
@@ -134,12 +134,12 @@ const BookingsView = () => {
                   </p>
                 </div>
                 <div className="w-full md:w-1/2 px-3">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-event-name"
+                    htmlFor="grid-event-name"
                   >
                     Event Name
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-event-name"
@@ -150,12 +150,12 @@ const BookingsView = () => {
               </div>
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-organizing-club"
+                    htmlFor="grid-organizing-club"
                   >
                     Organizing Club
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-organizing-club"
@@ -165,12 +165,12 @@ const BookingsView = () => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                    for="grid-event-date"
+                    htmlFor="grid-event-date"
                   >
                     Event Date Type
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-event-date"
@@ -187,12 +187,12 @@ const BookingsView = () => {
               {bookingData.eventDateType === "half" && (
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <h1
+                    <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                      for="grid-start-time"
+                      htmlFor="grid-start-time"
                     >
                       Start Time
-                    </h1>
+                    </label>
                     <p
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-start-time"
@@ -204,12 +204,12 @@ const BookingsView = () => {
                     </p>
                   </div>
                   <div className="w-full md:w-1/2 px-3">
-                    <h1
+                    <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      for="grid-end-time"
+                      htmlFor="grid-end-time"
                     >
                       End Time
-                    </h1>
+                    </label>
                     <p
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-end-time"
@@ -226,12 +226,12 @@ const BookingsView = () => {
               {bookingData.eventDateType === "multiple" && (
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <h1
+                    <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                      for="grid-start-time"
+                      htmlFor="grid-start-time"
                     >
                       Event Start Date
-                    </h1>
+                    </label>
                     <p
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-start-time"
@@ -243,12 +243,12 @@ const BookingsView = () => {
                     </p>
                   </div>
                   <div className="w-full md:w-1/2 px-3">
-                    <h1
+                    <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      for="grid-end-time"
+                      htmlFor="grid-end-time"
                     >
                       Event End Date
-                    </h1>
+                    </label>
                     <p
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-end-time"
@@ -266,12 +266,12 @@ const BookingsView = () => {
                 {(bookingData.eventDateType === "full" ||
                   bookingData.eventDateType === "half") && (
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <h1
+                    <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                      for="grid-department"
+                      htmlFor="grid-department"
                     >
                       Event Date
-                    </h1>
+                    </label>
                     <p
                       className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="grid-department"
@@ -285,12 +285,12 @@ const BookingsView = () => {
                 )}
 
                 <div className="w-full md:w-1/2 px-3">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-hall-name"
+                    htmlFor="grid-hall-name"
                   >
                     Hall Name
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-hall-name"
@@ -301,12 +301,12 @@ const BookingsView = () => {
               </div>
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-phone-number"
+                    htmlFor="grid-phone-number"
                   >
                     Phone Number
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-phone-number"
@@ -316,12 +316,12 @@ const BookingsView = () => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-alt-number"
+                    htmlFor="grid-alt-number"
                   >
                     Alternate Number
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-alt-number"
@@ -333,12 +333,12 @@ const BookingsView = () => {
 
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-phone-number"
+                    htmlFor="grid-phone-number"
                   >
                     Institution
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-phone-number"
@@ -347,12 +347,12 @@ const BookingsView = () => {
                   </p>
                 </div>
                 <div className="w-full md:w-1/2 px-3">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-alt-number"
+                    htmlFor="grid-alt-number"
                   >
                     Department
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-alt-number"
@@ -364,12 +364,12 @@ const BookingsView = () => {
 
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-phone-number"
+                    htmlFor="grid-phone-number"
                   >
                     Requested By
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-phone-number"
@@ -378,12 +378,12 @@ const BookingsView = () => {
                   </p>
                 </div>
                 <div className="w-full md:w-1/2 px-3">
-                  <h1
+                  <label
                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                    for="grid-alt-number"
+                    htmlFor="grid-alt-number"
                   >
                     Request Created At
-                  </h1>
+                  </label>
                   <p
                     className="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-alt-number"
@@ -399,12 +399,12 @@ const BookingsView = () => {
               {bookingData.rejectionReason !== null && (
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full px-3 mb-6 md:mb-0">
-                    <h1
+                    <label
                       className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
-                      for="grid-phone-number"
+                      htmlFor="grid-phone-number"
                     >
                       Reason For Rejection
-                    </h1>
+                    </label>
                     <p className="text-s text-red-600	 font-bold">
                       {bookingData.rejectionReason}
                     </p>
@@ -492,10 +492,10 @@ const BookingsView = () => {
       {showModal && (
         <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
           <div className="bg-white p-4 rounded-md shadow-md w-1/3">
-            <h2 className="text-lg font-bold mb-4">Reason for Rejection</h2>
+            <h2 className="text-lg font-bold mb-4">Reason htmlFor Rejection</h2>
             <textarea
               className="w-full p-2 border border-gray-300 rounded mb-4 resize-none"
-              placeholder="Enter reason for rejection"
+              placeholder="Enter reason htmlFor rejection"
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
             ></textarea>
