@@ -5,8 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build:client && npm run build:server",
-    "start": "node app.js"
+    "build": "npm run build:server",
+    "start": "node app.js",
+    "build:server": "echo 'No build step required for server code'"
+
   },
   "author": "",
   "license": "ISC",
